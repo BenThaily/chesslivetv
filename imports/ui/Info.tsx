@@ -20,8 +20,7 @@ export const Info = () => {
 
   return (
     <div>
-      <h2>Learn Meteor!</h2>
-      <ul>{ links.map(makeLink) }</ul>
+      <h2>Chess Live TV</h2>
     </div>
   );
 };
