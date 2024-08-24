@@ -1,4 +1,4 @@
-# Use the official Node.js image as the base image
+# Use the official Node.js 20 image as the base image
 FROM node:20
 
 # Install Meteor
@@ -12,6 +12,9 @@ COPY . .
 
 # Build the app using the Meteor build command
 RUN meteor build ./output --directory
+
+# Install dependencies in the programs/server directory
+RUN cd ./output/bundle/programs/server && npm install
 
 # Set the entry point to run the app
 CMD ["node", "./output/bundle/main.js"]
