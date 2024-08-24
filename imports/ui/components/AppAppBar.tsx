@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const logoStyle = {
   width: '140px',
@@ -23,6 +25,7 @@ interface AppAppBarProps {
 
 function AppAppBar({ mode }: AppAppBarProps) {
   const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -43,7 +46,7 @@ function AppAppBar({ mode }: AppAppBarProps) {
   };
 
   const links = [
-      {label: "Tournaments", href: "/"},
+      {label: "Tournaments", href: "/tournaments"},
       {label: "Insights", href: "/"},
       {label: "WintrCat", href: "/"},
   ]
@@ -91,25 +94,27 @@ function AppAppBar({ mode }: AppAppBarProps) {
                 px: 0,
               }}
             >
-              <img
-                src="/logo.png"
-                style={logoStyle}
-              />
-              <Box sx={{ ml: 2, display: { xs: 'none', md: 'flex' } }}>
+                <Link to="/">
+                    <img
+                        src="/logo.png"
+                        style={logoStyle}
+                    />
+                </Link>
+                <Box sx={{ml: 2, display: {xs: 'none', md: 'flex'}}}>
+                    {
+                        links.map(({ label, href }) => (
+                            <MenuItem
+                                key={href}
+                                onClick={()=> navigate(href)}
+                                sx={{ py: '6px', px: '12px' }}
+                            >
+                                <Typography variant="body2" color="text.primary">
+                                    {label}
+                                </Typography>
+                            </MenuItem>
 
-                  {
-                      links.map(({ label, href }) => (
-                          <MenuItem
-                              key={href}
-                              onClick={() => scrollToSection(href)}
-                              sx={{ py: '6px', px: '12px' }}
-                          >
-                              <Typography variant="body2" color="text.primary">
-                                  {label}
-                              </Typography>
-                          </MenuItem>
-                      ))
-                  }
+                        ))
+                    }
               </Box>
             </Box>
             <Box
@@ -124,7 +129,6 @@ function AppAppBar({ mode }: AppAppBarProps) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
                 target="_blank"
               >
                 Sign in
@@ -134,7 +138,6 @@ function AppAppBar({ mode }: AppAppBarProps) {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
                 target="_blank"
               >
                 Sign up
@@ -168,24 +171,20 @@ function AppAppBar({ mode }: AppAppBarProps) {
                     }}
                   >
                   </Box>
+                    {
+                        links.map(({ label, href }) => (
+                            <MenuItem onClick={()=> navigate(href)}>
+                                {label}
+                            </MenuItem>
+                        ))
+                    }
 
-                  <MenuItem onClick={() => scrollToSection('testimonials')}>
-                    Testimonials
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('pricing')}>
-                    Pricing
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
                   <Divider />
                   <MenuItem>
                     <Button
                       color="primary"
                       variant="contained"
                       component="a"
-                      href="/material-ui/getting-started/templates/sign-up/"
                       target="_blank"
                       sx={{ width: '100%' }}
                     >
@@ -197,7 +196,6 @@ function AppAppBar({ mode }: AppAppBarProps) {
                       color="primary"
                       variant="outlined"
                       component="a"
-                      href="/material-ui/getting-started/templates/sign-in/"
                       target="_blank"
                       sx={{ width: '100%' }}
                     >

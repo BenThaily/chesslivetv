@@ -37,18 +37,14 @@ const TournamentsGrid = () => {
     ];
 
     return (
-        <Container sx={{ py: { xs: 8, sm: 16 } }}>
-            <Grid container >
-                <DataGrid
-                    sx={{mt: 1}}
-                    pagination
-                    pageSizeOptions={[5, 10, 25]}
-                    rows={tournaments}
-                    columns={columns}
-                    loading={loading}
-                />
-            </Grid>
-        </Container>
+        <DataGrid
+            sx={{mt: 1}}
+            pagination
+            pageSizeOptions={[5, 10, 25]}
+            rows={tournaments}
+            columns={columns}
+            loading={loading}
+        />
     );
 };
 
