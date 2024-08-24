@@ -4,6 +4,9 @@ FROM node:20
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
+# Set the METEOR_ALLOW_SUPERUSER environment variable
+ENV METEOR_ALLOW_SUPERUSER=true
+
 # Set the working directory in the container
 WORKDIR /app
 
