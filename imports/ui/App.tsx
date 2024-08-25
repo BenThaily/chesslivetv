@@ -7,6 +7,7 @@ import Hello from "/imports/ui/Hello";
 import {Info} from "/imports/ui/Info";
 import Container from "@mui/material/Container";
 import {Grid} from "@mui/material";
+import GameViewer from "/imports/ui/GameViewer";
 
 
 export const App = () => (
@@ -15,7 +16,7 @@ export const App = () => (
         <Container sx={{ py: { xs: 8, sm: 16 } }}>
             <Grid container >
                 <Routes>
-                    <Route path="/" element={<Info />} />
+                    <Route path="/" element={<GameViewer />} />
                     <Route path="/tournaments" element={<TournamentsGrid />} />
                 </Routes>
             </Grid>
