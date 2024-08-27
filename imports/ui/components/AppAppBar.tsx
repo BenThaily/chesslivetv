@@ -46,7 +46,7 @@ function AppAppBar({ mode }: AppAppBarProps) {
   };
 
   const links = [
-      {label: "Tournaments", href: "/tournaments"},
+      {label: "Tournaments", href: "/"},
       {label: "Insights", href: "/"},
       {label: "WintrCat", href: "/"},
   ]

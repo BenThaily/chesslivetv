@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {Grid} from "@mui/material";
 import Container from "@mui/material/Container";
+import {Link} from "react-router-dom";
 
 const TournamentsGrid = () => {
     const [tournaments, setTournaments] = useState([]);
@@ -13,8 +14,8 @@ const TournamentsGrid = () => {
                 const response = await fetch('https://lichess.org/api/tournament');
                 const data = await response.json();
                 console.log("hello>>", data)
-                const tournamentData = data.created.map((tournament, index) => ({
-                    id: index,
+                const tournamentData = data.finished.map((tournament, index) => ({
+                    id: tournament.id,
                     name: tournament.fullName,
                     creator: tournament.createdBy,
                     startsAt: new Date(tournament.startsAt).toLocaleString(),
@@ -31,7 +32,16 @@ const TournamentsGrid = () => {
     }, []);
 
     const columns = [
-        { field: 'name', headerName: 'Tournament Name', width: 300 },
+        {
+            field: 'name',
+            headerName: 'Tournament Name',
+            width: 300,
+            renderCell: (params) => (
+                <Link to={`/tournaments/${params.row.id}`}>
+                    {params.value}
+                </Link>
+            ),
+        },
         { field: 'creator', headerName: 'Created By', width: 200 },
         { field: 'startsAt', headerName: 'Start Time', width: 200 },
     ];
