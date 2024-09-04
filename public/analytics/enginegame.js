@@ -5,6 +5,7 @@ function engineGame(options) {
     ///NOTE: If the WASM binary is not in the expected location, must be added after the hash.
     var protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
     var stockfishjsURL = protocol + '//chesslivetv.nyc3.cdn.digitaloceanspaces.com/stockfish-16.1.js';
+    stockfishjsURL = '/stockfish/stockfish-16.1.js'
     var engine = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker(options.stockfishjs || stockfishjsURL);
     var evaler = typeof STOCKFISH === "function" ? STOCKFISH() : new Worker(options.stockfishjs || stockfishjsURL);
     var engineStatus = {};
