@@ -15,8 +15,7 @@ const ChessGameViewer = ({ pgn }) => {
 
     return (
         <div>
-            {/*<div ref={viewerRef} id="chessBoard" />*/}
-            <ChessAnalytics pgn={pgn} turnNumber={2}/>
+            <div ref={viewerRef} id="chessBoard" />
         </div>
     );
 };
