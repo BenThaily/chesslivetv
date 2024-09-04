@@ -1,6 +1,8 @@
 function engineGame(options) {
     options = options || {}
     var game = new Chess();
+        console.log("game2", game)
+
     var board;
     ///NOTE: If the WASM binary is not in the expected location, must be added after the hash.
     var protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
@@ -16,6 +18,9 @@ function engineGame(options) {
     var isEngineRunning = false;
     var evaluation_el = document.getElementById("evaluation");
     var announced_game_over;
+    var moveIndex = 0;
+    var replayInterval;
+
     // do not pick up pieces if the game is over
     // only pick up pieces for White
     var onDragStart = function(source, piece, position, orientation) {
@@ -200,17 +205,17 @@ function engineGame(options) {
         } else {
             var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             /// Did the AI move?
-            if(match) {
-                isEngineRunning = false;
-                game.move({from: match[1], to: match[2], promotion: match[3]});
-                prepareMove();
-                uciCmd("eval", evaler)
-                evaluation_el.textContent = "";
-                //uciCmd("eval");
-            /// Is it sending feedback?
-            } else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
-                engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
-            }
+            // if(match) {
+            //     isEngineRunning = false;
+            //     game.move({from: match[1], to: match[2], promotion: match[3]});
+            //     prepareMove();
+            //     uciCmd("eval", evaler)
+            //     evaluation_el.textContent = "";
+            //     //uciCmd("eval");
+            // /// Is it sending feedback?
+            // } else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
+            //     engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
+            // }
             
             /// Is it sending feed back with a score?
             if(match = line.match(/^info .*\bscore (\w+) (-?\d+)/)) {
@@ -350,6 +355,21 @@ function engineGame(options) {
             displayStatus();
             prepareMove();
             return true;
+        },
+        replayPGN(pgn) {
+            const game2 = new Chess();
+            game2.load_pgn(pgn)
+            const history = game2.history();
+            moveIndex = 0;
+            replayInterval = setInterval(() => {
+                if (moveIndex < history.length) {
+                    game.move(history[moveIndex++]);
+                    board.position(game.fen());
+                    prepareMove()
+                } else {
+                    clearInterval(replayInterval);
+                }
+            }, 2000);  // 2000ms = 2 seconds
         }
     };
 }
