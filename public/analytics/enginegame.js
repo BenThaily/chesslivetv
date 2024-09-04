@@ -20,6 +20,7 @@ function engineGame(options) {
     var announced_game_over;
     var moveIndex = 0;
     var replayInterval;
+    var canMove = false;
 
     // do not pick up pieces if the game is over
     // only pick up pieces for White
@@ -233,7 +234,9 @@ function engineGame(options) {
                     engineStatus.score = ((match[1] == 'upper') == (game.turn() == 'w') ? '<= ' : '>= ') + engineStatus.score
                 }
             }
+
         }
+        canMove = engineStatus.engineLoaded && engineStatus.engineReady;
         displayStatus();
     };
 
@@ -362,10 +365,14 @@ function engineGame(options) {
             const history = game2.history();
             moveIndex = 0;
             replayInterval = setInterval(() => {
+                console.log("canMove", canMove)
                 if (moveIndex < history.length) {
-                    game.move(history[moveIndex++]);
-                    board.position(game.fen());
-                    prepareMove()
+                    if (canMove || moveIndex % 2 == 0) {
+                        canMove = false;
+                        game.move(history[moveIndex++]);
+                        board.position(game.fen());
+                        prepareMove()
+                    }
                 } else {
                     clearInterval(replayInterval);
                 }
