@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Link, LinksCollection } from '/imports/api/links';
+import { WebApp } from "meteor/webapp";
+
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
@@ -34,4 +36,20 @@ Meteor.startup(async () => {
   Meteor.publish("links", function () {
     return LinksCollection.find();
   });
+
+
+  WebApp.rawHandlers.use(function(req, res, next) {
+    // add headers
+    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    console.log(req.url)
+    if (req.method === 'GET' && req.url.endsWith('.wasm')) {
+      res.setHeader('Content-Type', 'application/wasm');
+    }
+    // don't forget the next call!
+    next();
+  });
 });
+
