@@ -12,6 +12,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import BlazeTemplate from "/imports/ui/components/BlazeTemplate";
 
 const logoStyle = {
   width: '140px',
@@ -124,24 +125,26 @@ function AppAppBar({ mode }: AppAppBarProps) {
                 alignItems: 'center',
               }}
             >
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                component="a"
-                target="_blank"
-              >
-                Sign in
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                component="a"
-                target="_blank"
-              >
-                Sign up
-              </Button>
+                <span className="text-black"><BlazeTemplate template="loginButtons"/></span>
+
+              {/*<Button*/}
+              {/*  color="primary"*/}
+              {/*  variant="text"*/}
+              {/*  size="small"*/}
+              {/*  component="a"*/}
+              {/*  target="_blank"*/}
+              {/*>*/}
+              {/*  Sign in2*/}
+              {/*</Button>*/}
+              {/*<Button*/}
+              {/*  color="primary"*/}
+              {/*  variant="contained"*/}
+              {/*  size="small"*/}
+              {/*  component="a"*/}
+              {/*  target="_blank"*/}
+              {/*>*/}
+              {/*  Sign up*/}
+              {/*</Button>*/}
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button

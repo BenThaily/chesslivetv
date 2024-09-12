@@ -1,5 +1,6 @@
 import React from 'react';
 import ChessGameViewer from './components/ChessGameViewer';
+import Chat from "/imports/ui/components/Chat";
 
 const pgn = `
 [Event "F/S Return Match"]

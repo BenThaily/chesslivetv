@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import ChessGameViewer from "/imports/ui/components/ChessGameViewer";
 import {Grid, List, ListItem, ListItemText} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Chat from "/imports/ui/components/Chat";
 
 const cleanPgn = (pgn) => {
     // Remove any invisible characters or BOM
@@ -40,6 +41,7 @@ const TournamentPage = () => {
     const { tournamentId } = useParams();
     const [games, setGames] = useState([]);
     const [pgn, setPgn] = useState()
+    const [game, setGame] = useState()
 
     useEffect(() => {
         // Fetch games from Lichess API
@@ -53,6 +55,8 @@ const TournamentPage = () => {
 
     async function selectGame(game) {
         setPgn(game.pgn)
+        setGame(game)
+        console.log(game)
     }
     return (
         <div>
@@ -82,7 +86,12 @@ const TournamentPage = () => {
                 {/* Right Column: Chess Game Viewer */}
                 <Grid item xs={8}>
                     {pgn ? (
-                        <ChessGameViewer pgn={pgn} />
+                        <>
+                            <ChessGameViewer pgn={pgn}/>
+                            <br/>
+                            <h1>Chat</h1>
+                            <Chat roomId={game.url}/>
+                        </>
                     ) : (
                         <Typography variant="h6">Select a game to view</Typography>
                     )}

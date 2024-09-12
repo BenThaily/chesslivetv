@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import {Grid} from "@mui/material";
 import Container from "@mui/material/Container";
 import {Link} from "react-router-dom";
+import { Accounts } from 'meteor/accounts-base';
 
 const TournamentsGrid = () => {
     const [tournaments, setTournaments] = useState([]);
@@ -47,14 +48,16 @@ const TournamentsGrid = () => {
     ];
 
     return (
-        <DataGrid
-            sx={{mt: 1}}
-            pagination
-            pageSizeOptions={[5, 10, 25]}
-            rows={tournaments}
-            columns={columns}
-            loading={loading}
-        />
+        <>
+            <DataGrid
+                sx={{mt: 1}}
+                pagination
+                pageSizeOptions={[5, 10, 25]}
+                rows={tournaments}
+                columns={columns}
+                loading={loading}
+            />
+        </>
     );
 };
 
