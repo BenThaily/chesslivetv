@@ -47,10 +47,18 @@ function AppAppBar({ mode }: AppAppBarProps) {
   };
 
   const links = [
-      {label: "Tournaments", href: "/"},
-      {label: "Insights", href: "/"},
-      {label: "WintrCat", href: "/"},
+      {label: "Tournaments", href: "/tournaments"},
+      {label: "Tipjar", href: "https://salla.sa/dukkanwst", target:"_blank"},
   ]
+
+    function myNavigate(href, target) {
+      if (target == "_blank") {
+          window.open(href, target);
+      } else {
+          navigate(href)
+      }
+
+    }
 
   return (
     <div>
@@ -103,10 +111,10 @@ function AppAppBar({ mode }: AppAppBarProps) {
                 </Link>
                 <Box sx={{ml: 2, display: {xs: 'none', md: 'flex'}}}>
                     {
-                        links.map(({ label, href }) => (
+                        links.map(({ label, href, target }) => (
                             <MenuItem
                                 key={href}
-                                onClick={()=> navigate(href)}
+                                onClick={()=> myNavigate(href, target)}
                                 sx={{ py: '6px', px: '12px' }}
                             >
                                 <Typography variant="body2" color="text.primary">

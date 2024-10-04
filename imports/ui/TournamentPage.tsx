@@ -4,6 +4,8 @@ import ChessGameViewer from "/imports/ui/components/ChessGameViewer";
 import {Grid, List, ListItem, ListItemText} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Chat from "/imports/ui/components/Chat";
+import { Card, CardContent, Typography, CardActions, Button, CardMedia } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 
 const cleanPgn = (pgn) => {
     // Remove any invisible characters or BOM
@@ -50,6 +52,9 @@ const TournamentPage = () => {
             .then(data => {
                 // Assume each game is separated by double newlines
                 setGames(data.games);
+                if (!game) {
+                    selectGame(data.games[0])
+                }
             });
     }, [tournamentId]);
 
@@ -58,45 +63,74 @@ const TournamentPage = () => {
         setGame(game)
         console.log(game)
     }
+    if (games.length == 0) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '60vh' }}>
+            <CircularProgress />
+        </Box>
+    );
+
     return (
         <div>
-            <h1>Games in Tournament: {tournamentId}</h1>
-            <Grid container spacing={2}>
-                {/* Left Column: List of Games */}
-                <Grid item xs={4}
-                      sx={{
-                          maxHeight: '500px',
-                          overflowY: 'auto'
-                      }}
-                >
-                    <List>
-                        {games.map((game, index) => (
-                            <ListItem
-                                button
-                                key={index}
-                                onClick={() => selectGame(game)}
-                                selected={pgn === game}
-                            >
-                                <ListItemText primary={`Game ${index + 1}`} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Grid>
+            { games.length > 0 &&
+                <Card sx={{}}>
+                    <CardContent>
 
-                {/* Right Column: Chess Game Viewer */}
-                <Grid item xs={8}>
-                    {pgn ? (
-                        <>
-                            <ChessGameViewer pgn={pgn}/>
-                            <br/>
-                            <h1>Chat</h1>
-                            <Chat roomId={game.url}/>
-                        </>
-                    ) : (
-                        <Typography variant="h6">Select a game to view</Typography>
-                    )}
-                </Grid>
-            </Grid>
+                        <Grid container spacing={2} direction="row" >
+                            <Grid item xs={2}
+                                  sx={{
+                                      maxHeight: '500px',
+                                      width: '200px',
+                                      overflowY: 'auto',
+                                      scrollbarWidth: 'none',  // For Firefox
+                                      '&::-webkit-scrollbar': {
+                                          display: 'none',  // For Chrome, Safari, and Edge
+                                      },
+                                  }}
+                            >
+                                <List>
+                                    {games.map((game, index) => (
+                                        <ListItem
+                                            button
+                                            key={index}
+                                            onClick={() => selectGame(game)}
+                                            selected={pgn === game}
+                                        >
+                                            <ListItemText primary={`Game ${index + 1}`} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Grid>
+
+                            <Grid item xs={6}
+                                  direction="row"
+                                  justifyContent="center"
+                                  alignItems="center">
+                                {pgn ? (
+                                    <>
+                                        <ChessGameViewer pgn={pgn}/>
+                                    </>
+                                ) : (
+                                    <div>
+                                        <Typography variant="h6">Select a game to view</Typography>
+                                    </div>
+                                )}
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                {pgn ? (
+                                    <>
+                                        <Chat roomId={game.url}/>
+                                    </>
+                                ) : (
+                                    <div/>
+                                )}
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </Card>
+            }
+
+
         </div>
 
     );

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import {Grid} from "@mui/material";
+import {Card, CardContent, CardHeader, Grid, List, ListItem, ListItemText, Typography} from "@mui/material";
 import Container from "@mui/material/Container";
 import {Link} from "react-router-dom";
 import { Accounts } from 'meteor/accounts-base';
+import ChessGameViewer from "/imports/ui/components/ChessGameViewer";
+import Chat from "/imports/ui/components/Chat";
 
 const TournamentsGrid = () => {
     const [tournaments, setTournaments] = useState([]);
@@ -48,16 +50,19 @@ const TournamentsGrid = () => {
     ];
 
     return (
-        <>
-            <DataGrid
-                sx={{mt: 1}}
-                pagination
-                pageSizeOptions={[5, 10, 25]}
-                rows={tournaments}
-                columns={columns}
-                loading={loading}
-            />
-        </>
+        <Card sx={{width: "100%"}}>
+            <CardHeader title="Tournaments" />
+            <CardContent>
+                <DataGrid
+                    sx={{mt: 1}}
+                    pagination
+                    pageSizeOptions={[5, 10, 25]}
+                    rows={tournaments}
+                    columns={columns}
+                    loading={loading}
+                />
+            </CardContent>
+        </Card>
     );
 };
 
